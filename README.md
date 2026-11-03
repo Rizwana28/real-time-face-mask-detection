@@ -53,6 +53,19 @@ Press `q` to stop a live preview. Adjust `--confidence`, `--nms`, and `--size`
 for the model and hardware. For an ONNX model, omit `--config`; for Darknet
 models, provide the matching `.cfg`.
 
+## Web frontend
+
+The project includes a Streamlit frontend for browser-based image, camera
+snapshot, and video detection:
+
+```bash
+streamlit run app.py
+```
+
+Open the displayed local URL, upload your model and labels in the sidebar, then
+choose an image, take a camera snapshot, or process a video. The browser UI
+does not require a separate JavaScript build.
+
 ## Test
 
 ```bash
@@ -67,6 +80,7 @@ and safe rendering. No camera, model weights, or GUI is required to run them.
 | Path | Purpose |
 | --- | --- |
 | `mask_detection.py` | CLI, model loading, inference, rendering |
+| `app.py` | Streamlit browser frontend |
 | `labels.example.txt` | Example class names |
 | `tests/` | Unit tests for inference utilities |
 | `requirements.txt` | Runtime dependencies |
