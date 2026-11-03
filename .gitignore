@@ -205,6 +205,16 @@ cython_debug/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
 
+# Local model weights and generated media
+models/
+*.weights
+*.onnx
+*.caffemodel
+*.mp4
+*.avi
+*.mov
+output/
+
 # Ruff stuff:
 .ruff_cache/
 
