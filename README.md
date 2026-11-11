@@ -9,6 +9,9 @@
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![OpenCV](https://img.shields.io/badge/Vision-OpenCV-brightgreen.svg)](https://opencv.org/)
 
+https://real-time-face-mask-detection-yl6e.onrender.com/
+
+
 A production-grade web dashboard for real-time face-mask compliance monitoring.
 Runs fully offline — no cloud calls at inference time.
 
