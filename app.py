@@ -39,9 +39,14 @@ OUTPUTS_DIR = BASE_DIR / "outputs"
 OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
 STATIC_DIR.mkdir(parents=True, exist_ok=True)
 SAMPLES_DIR.mkdir(parents=True, exist_ok=True)
+MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Initialize pipeline
-pipeline = FaceMaskPipeline(models_dir=MODELS_DIR)
+# Initialize pipeline — graceful: server starts even if models are absent
+try:
+    pipeline = FaceMaskPipeline(models_dir=MODELS_DIR)
+except Exception as _exc:
+    print(f"[AegisMask] WARNING: Pipeline not ready — {_exc}")
+    pipeline = None  # type: ignore[assignment]
 
 app = FastAPI(
     title="AegisMask AI - Real-Time Face Mask Detection Platform",
@@ -80,6 +85,15 @@ def _record_audit_events(detections: list[Detection], source: str = "webcam") ->
                 audit_logs.pop(0)
 
 
+def _require_pipeline():
+    """Raise 503 when ONNX models are not yet loaded."""
+    if pipeline is None or not pipeline.is_ready:
+        raise HTTPException(
+            status_code=503,
+            detail="Models not loaded. Upload face_detection_yunet_2023mar.onnx and mask_detector.onnx to the models/ folder and restart.",
+        )
+
+
 def _compute_summary(detections: list[Detection]) -> dict[str, Any]:
     total = len(detections)
     with_mask = sum(1 for d in detections if d.label == "with_mask")
@@ -108,10 +122,10 @@ def get_status() -> dict[str, Any]:
     return {
         "status": "online",
         "service": "AegisMask AI Intelligence Engine",
-        "model_ready": pipeline.is_ready,
+        "model_ready": pipeline is not None and pipeline.is_ready,
         "detector": "OpenCV YuNet (ONNX)",
         "classifier": "MobileNetV2 Face Mask (ONNX)",
-        "supported_classes": FaceMaskPipeline.LABELS,
+        "supported_classes": FaceMaskPipeline.LABELS if pipeline else [],
         "audit_events_count": len(audit_logs),
     }
 
@@ -161,6 +175,7 @@ async def detect_image(
     draw_landmarks: bool = Form(True),
 ):
     """Run face mask detection on an uploaded image file."""
+    _require_pipeline()
     contents = await file.read()
     nparr = np.frombuffer(contents, np.uint8)
     image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -202,6 +217,7 @@ def detect_sample(
     draw_landmarks: bool = True,
 ):
     """Run detection directly on a pre-packaged sample image."""
+    _require_pipeline()
     file_path = SAMPLES_DIR / sample_id
     if not file_path.is_file():
         raise HTTPException(status_code=404, detail="Sample image not found")
@@ -241,6 +257,10 @@ def detect_sample(
 async def websocket_stream(websocket: WebSocket):
     """High-speed WebSocket endpoint for live client webcam inference."""
     await websocket.accept()
+    if pipeline is None or not pipeline.is_ready:
+        await websocket.send_json({"error": "Models not loaded. Please add ONNX models to models/ and restart."})
+        await websocket.close()
+        return
     try:
         while True:
             # Client sends base64 JPEG string or JSON with settings & image
