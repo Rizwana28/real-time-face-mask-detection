@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛡️ AegisMask AI
+# 🛡️ AegisMask AI  https://real-time-face-mask-detection-yl6e.onrender.com/
 
 **Real-time face-mask detection platform powered by YuNet + MobileNetV2 ONNX**
 
@@ -9,7 +9,7 @@
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![OpenCV](https://img.shields.io/badge/Vision-OpenCV-brightgreen.svg)](https://opencv.org/)
 
-https://real-time-face-mask-detection-yl6e.onrender.com/
+
 
 
 A production-grade web dashboard for real-time face-mask compliance monitoring.
