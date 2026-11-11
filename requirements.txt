@@ -1,2 +1,14 @@
+# Core ML / vision
 numpy>=1.24,<3
 opencv-python>=4.8,<5
+
+# Web server
+fastapi>=0.111
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9     # file-upload support for FastAPI
+
+# Testing
+pytest>=8.0
+pytest-asyncio>=0.23
+httpx>=0.27                 # async test client for FastAPI
+anyio>=4.0
