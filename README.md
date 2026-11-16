@@ -154,6 +154,10 @@ Note: this is a computer-vision demo, not a medical or safety-certified system. 
 
 ## License and credits
 
+**Author:** Arun Kumar N A · [GitHub](https://github.com/ArunTechie2005)
+contributors Akash M S, Chandana J, Rizwana Banu
+**Live demo:** https://face-mask-detection-dh3g.onrender.com
+
 Project code: MIT License (see `LICENSE`).
 Third-party parts keep their own licences: [Ultralytics YOLO](https://github.com/ultralytics/ultralytics) is AGPL-3.0 (the trained `weights/best.pt` is derived from it),
 and the dataset is the Kaggle "Face Mask Detection" set by andrewmvd. Check these terms before any commercial or closed-source use.
