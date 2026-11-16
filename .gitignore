@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.tmp/
+.yolo_config/
+.selftest/
+outputs/web_videos/
+outputs/detections/
+datasets/face_mask/
+weights/yolo11n.pt
+*.log
