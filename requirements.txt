@@ -1,0 +1,11 @@
+# PyTorch is installed separately by setup.bat / setup.sh (CPU or CUDA build is chosen automatically).
+ultralytics>=8.3.0
+opencv-python>=4.8
+numpy
+pillow
+pyyaml
+kagglehub
+fastapi>=0.110
+uvicorn>=0.29
+imageio-ffmpeg>=0.5
+mss>=9.0

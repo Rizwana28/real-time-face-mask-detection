@@ -1,0 +1,7 @@
+ultralytics>=8.3.0
+opencv-python-headless>=4.8
+numpy
+pillow
+fastapi>=0.110
+uvicorn>=0.29
+imageio-ffmpeg>=0.5
